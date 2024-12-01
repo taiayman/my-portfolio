@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, PanInfo, useAnimation } from 'framer-motion';
 import PhoneFrame from './PhoneFrame';
-import CreateAppScreen from './CreateAppScreen';
+import { Archivo_Black } from 'next/font/google';
 
 const phoneFrames = [
   { id: 1, appType: 'marketplace' as const },
@@ -15,8 +15,6 @@ const phoneFrames = [
 interface DeviceDisplayProps {
   onAppTypeChange?: (appType: 'marketplace' | 'vpn' | 'createapp') => void;
 }
-
-import { Archivo_Black } from 'next/font/google';
 
 const archivo = Archivo_Black({
   weight: '400',
