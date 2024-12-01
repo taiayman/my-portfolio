@@ -26,7 +26,7 @@ export default function Services() {
         <div className="space-y-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold">My Services</h2>
-            <p className="mt-4 text-gray-600">Here's what I can do for you</p>
+            <p className="mt-4 text-gray-600">Here&apos;s what I can do for you</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {services.map((service) => (

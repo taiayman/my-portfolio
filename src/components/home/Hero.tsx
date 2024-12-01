@@ -15,7 +15,7 @@ export default function Hero() {
             className="rounded-full"
           />
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold">
-            Hi, I'm <span className="text-blue-600">Your Name</span>
+            Hi, I&apos;m <span className="text-blue-600">Your Name</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl">
             A passionate full-stack developer specializing in building exceptional digital experiences.

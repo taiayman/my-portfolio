@@ -35,7 +35,6 @@ export default function Hero() {
   const [selectedLanguage, setSelectedLanguage] = useState<string>('');
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
-  const [loopNum, setLoopNum] = useState(0);
   const [isQuestionOpen, setIsQuestionOpen] = useState(false);
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [currentAppType, setCurrentAppType] = useState<'marketplace' | 'vpn' | 'createapp'>('marketplace');
@@ -45,12 +44,6 @@ export default function Hero() {
     setShowLanguages(false);
     setIsChatOpen(true);
   };
-
-  const questions = [
-    "How much do you charge?",
-    "Combien facturez-vous?",
-    "Bch7al kankhedmo?",
-  ];
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;

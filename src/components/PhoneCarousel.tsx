@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, PanInfo, useAnimation, AnimatePresence, AnimationControls } from 'framer-motion';
+import { motion, PanInfo, useAnimation } from 'framer-motion';
 import PhoneFrame from './PhoneFrame';
 import CreateAppScreen from './CreateAppScreen';
 
