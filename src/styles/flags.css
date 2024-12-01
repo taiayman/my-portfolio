@@ -1,0 +1,32 @@
+.flag-circle {
+  border: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.flag-circle button {
+  border: none !important;
+  padding: 0 !important;
+  background: transparent !important;
+  pointer-events: none !important;
+}
+
+.flag-circle .ReactFlagsSelect-module_selectBtn__19wW7 {
+  border: none !important;
+  padding: 0 !important;
+}
+
+.flag-circle .ReactFlagsSelect-module_selectValue__152eS {
+  padding: 0 !important;
+}
+
+.flag-circle .ReactFlagsSelect-module_flagsSelect__2pfa2 {
+  padding: 0 !important;
+}
+
+.flag-circle img.ReactFlagsSelect-module_selectFlag__2q5gC {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+}

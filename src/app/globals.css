@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+/* Apply Poppins font family */
+body {
+  font-family: var(--font-poppins), system-ui, sans-serif;
+}
+
+/* Custom font styles */
+.text-title {
+  @apply font-bold tracking-tight;
+}
+
+.text-subtitle {
+  @apply font-medium tracking-wide;
+}
+
+.text-body {
+  @apply font-normal;
+}
+
+.text-button {
+  @apply font-semibold tracking-wide;
+}
+
+/* Existing styles */
+.shadow-top {
+  box-shadow: 0 -4px 6px -1px rgb(0 0 0 / 0.1), 0 -2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+@layer base {
+  html {
+    @apply antialiased scroll-smooth;
+  }
+
+  body {
+    @apply text-gray-900 bg-white overflow-x-hidden;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium
+           transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2
+           cursor-pointer;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary text-white hover:bg-opacity-90 focus:ring-primary;
+  }
+
+  .btn-secondary {
+    @apply btn border-2 border-primary text-primary hover:bg-primary hover:text-white;
+  }
+
+  .card {
+    @apply cursor-pointer transition-all duration-200 hover:shadow-lg;
+  }
+
+  /* Mobile scrollbar styles */
+  .mobile-scroll {
+    @apply scrollbar-hide overflow-y-auto overscroll-y-contain;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  .mobile-scroll::-webkit-scrollbar {
+    width: 2px;
+    background: transparent;
+  }
+
+  .mobile-scroll::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 1px;
+  }
+
+  /* Hide scrollbar when not scrolling */
+  .mobile-scroll:not(:hover)::-webkit-scrollbar-thumb {
+    opacity: 0;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Custom cursor styles */
+  .cursor-crosshair {
+    cursor: crosshair;
+  }
+
+  .cursor-crosshair::after {
+    content: '';
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: all 0.1s ease;
+    z-index: 9999;
+  }
+
+  .cursor-crosshair:active::after {
+    width: 16px;
+    height: 16px;
+    border-color: rgba(0, 0, 0, 0.8);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* This accounts for the fixed navbar */
+}
+
+body {
+  overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 4rem;
+  }
+}
