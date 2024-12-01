@@ -1,10 +1,8 @@
 'use client';
 
-import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import * as Flags from 'country-flag-icons/react/3x2';
-import PhoneFrame from './PhoneFrame';
 import { Archivo_Black } from 'next/font/google';
 import AIChatOverlay from './AIChatOverlay';
 import PhoneCarousel from './PhoneCarousel';
@@ -34,7 +32,6 @@ export default function Hero() {
   const [showLanguages, setShowLanguages] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState<string>('');
   const [displayText, setDisplayText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
   const [isQuestionOpen, setIsQuestionOpen] = useState(false);
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [currentAppType, setCurrentAppType] = useState<'marketplace' | 'vpn' | 'createapp'>('marketplace');
@@ -49,29 +46,19 @@ export default function Hero() {
     let timeout: NodeJS.Timeout;
     const currentPhrase = estimateTexts[currentTextIndex];
 
-    if (isDeleting) {
-      if (displayText === '') {
-        setIsDeleting(false);
+    if (displayText === currentPhrase) {
+      timeout = setTimeout(() => {
+        setDisplayText('');
         setCurrentTextIndex((prev) => (prev + 1) % estimateTexts.length);
-      } else {
-        timeout = setTimeout(() => {
-          setDisplayText(displayText.slice(0, -1));
-        }, 50);
-      }
+      }, 2000);
     } else {
-      if (displayText === currentPhrase) {
-        timeout = setTimeout(() => {
-          setIsDeleting(true);
-        }, 2000);
-      } else {
-        timeout = setTimeout(() => {
-          setDisplayText(currentPhrase.slice(0, displayText.length + 1));
-        }, 100);
-      }
+      timeout = setTimeout(() => {
+        setDisplayText(currentPhrase.slice(0, displayText.length + 1));
+      }, 100);
     }
 
     return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, currentTextIndex]);
+  }, [displayText, currentTextIndex]);
 
   const openWhatsApp = () => {
     window.open('https://wa.me/212765755723', '_blank');

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, PanInfo, useAnimation } from 'framer-motion';
+import { motion, useAnimation, PanInfo } from 'framer-motion';
 import PhoneFrame from './PhoneFrame';
 import { Archivo_Black } from 'next/font/google';
 

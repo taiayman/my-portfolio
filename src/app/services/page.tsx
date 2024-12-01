@@ -51,11 +51,11 @@ const services = [
   {
     icon: <BiCloud className="w-8 h-8" />,
     title: "Cloud Services",
-    description: "Cloud infrastructure setup and management using AWS, Google Cloud, and Azure for scalable applications.",
+    description: "We&apos;ll help you leverage cloud platforms like AWS, Azure, and Google Cloud for scalable and reliable solutions.",
     features: [
       "Cloud Migration",
       "Serverless Architecture",
-      "Auto-scaling Setup",
+      "DevOps Integration",
       "Cloud Security"
     ]
   },
