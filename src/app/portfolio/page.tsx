@@ -151,8 +151,8 @@ export default function PortfolioPage() {
         >
           <h2 className="text-3xl font-bold text-[#1a1a1a] mb-6">Have a Project in Mind?</h2>
           <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-            We're always excited to take on new challenges and create innovative solutions. 
-            Let's discuss how we can help bring your ideas to life.
+            We&apos;re always excited to take on new challenges and create innovative solutions. 
+            Let&apos;s discuss how we can help bring your ideas to life.
           </p>
           <button className="bg-[#1a1a1a] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#333] transition-colors duration-300">
             Start a Project

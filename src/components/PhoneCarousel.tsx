@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, PanInfo, useAnimation } from 'framer-motion';
+import { motion, PanInfo, useAnimation, AnimatePresence, AnimationControls } from 'framer-motion';
 import PhoneFrame from './PhoneFrame';
 import CreateAppScreen from './CreateAppScreen';
 
@@ -26,8 +26,20 @@ const archivo = Archivo_Black({
 export default function DeviceDisplay({ onAppTypeChange }: DeviceDisplayProps) {
   const [currentIndex, setCurrentIndex] = useState(phoneFrames.length - 1);
   const [resetCounter, setResetCounter] = useState(0);
+  
+  // Create individual animation controls for each frame
+  const frame1Controls = useAnimation();
+  const frame2Controls = useAnimation();
+  const frame3Controls = useAnimation();
+  
+  const animationControlsRef = useRef([frame1Controls, frame2Controls, frame3Controls]);
 
-  const animationControlsRef = useRef<Array<ReturnType<typeof useAnimation>>>([]);
+  useEffect(() => {
+    // Reset animation controls if needed
+    if (resetCounter > 0) {
+      animationControlsRef.current.forEach(control => control.set({ x: 0, opacity: 1 }));
+    }
+  }, [resetCounter]);
 
   useEffect(() => {
     return () => {
@@ -110,9 +122,7 @@ export default function DeviceDisplay({ onAppTypeChange }: DeviceDisplayProps) {
           const index = phoneFrames.length - 1 - i;
           const isCurrent = index === currentIndex;
 
-          // Initialize animation controls for each card
-          const controls = useAnimation();
-          animationControlsRef.current[index] = controls;
+          const controls = animationControlsRef.current[index];
 
           // Only render cards that haven't been swiped yet
           if (index > currentIndex) {
