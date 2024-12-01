@@ -18,14 +18,12 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 backdrop-blur-md z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
           <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5">
               <AnimatedLogo />
             </a>
           </div>
 
-          {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
             {menuItems.map((item) => (
               <Link
@@ -38,7 +36,6 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Mobile Menu Button */}
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -81,7 +78,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white">
@@ -100,4 +96,4 @@ export default function Navbar() {
       )}
     </nav>
   );
-} 
+}

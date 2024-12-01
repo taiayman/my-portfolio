@@ -2,30 +2,29 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation, PanInfo } from 'framer-motion';
+import Image from 'next/image';
 import PhoneFrame from './PhoneFrame';
 import { Archivo_Black } from 'next/font/google';
-
-const phoneFrames = [
-  { id: 1, appType: 'marketplace' as const },
-  { id: 2, appType: 'vpn' as const },
-  { id: 3, appType: 'createapp' as const },
-  // Add more cards as needed
-];
-
-interface DeviceDisplayProps {
-  onAppTypeChange?: (appType: 'marketplace' | 'vpn' | 'createapp') => void;
-}
 
 const archivo = Archivo_Black({
   weight: '400',
   subsets: ['latin'],
 });
 
+const phoneFrames = [
+  { id: 1, appType: 'marketplace' as const },
+  { id: 2, appType: 'vpn' as const },
+  { id: 3, appType: 'createapp' as const },
+];
+
+interface DeviceDisplayProps {
+  onAppTypeChange?: (appType: 'marketplace' | 'vpn' | 'createapp') => void;
+}
+
 export default function DeviceDisplay({ onAppTypeChange }: DeviceDisplayProps) {
   const [currentIndex, setCurrentIndex] = useState(phoneFrames.length - 1);
   const [resetCounter, setResetCounter] = useState(0);
   
-  // Create individual animation controls for each frame
   const frame1Controls = useAnimation();
   const frame2Controls = useAnimation();
   const frame3Controls = useAnimation();
@@ -33,26 +32,17 @@ export default function DeviceDisplay({ onAppTypeChange }: DeviceDisplayProps) {
   const animationControlsRef = useRef([frame1Controls, frame2Controls, frame3Controls]);
 
   useEffect(() => {
-    // Reset animation controls if needed
     if (resetCounter > 0) {
       animationControlsRef.current.forEach(control => control.set({ x: 0, opacity: 1 }));
     }
   }, [resetCounter]);
 
   useEffect(() => {
-    return () => {
-      // Cleanup if necessary
-    };
-  }, [currentIndex]);
-
-  useEffect(() => {
-    // Notify parent of app type change
     onAppTypeChange?.(phoneFrames[currentIndex].appType);
   }, [currentIndex, onAppTypeChange]);
 
   const swiped = (direction: 'left' | 'right', index: number) => {
     if (index === 0) {
-      // Reset the deck when the last card is swiped
       setTimeout(() => {
         setCurrentIndex(phoneFrames.length - 1);
         setResetCounter((prev) => prev + 1);
@@ -82,7 +72,6 @@ export default function DeviceDisplay({ onAppTypeChange }: DeviceDisplayProps) {
 
   return (
     <div className="relative w-[300px] h-[600px] mx-auto">
-      {/* Navigation Buttons */}
       <button
         onClick={handlePrevious}
         className="absolute left-[-40px] top-1/2 transform -translate-y-1/2 z-10 bg-white hover:bg-gray-50 text-gray-800 rounded-full p-2 transition-all"
@@ -122,7 +111,6 @@ export default function DeviceDisplay({ onAppTypeChange }: DeviceDisplayProps) {
 
           const controls = animationControlsRef.current[index];
 
-          // Only render cards that haven't been swiped yet
           if (index > currentIndex) {
             return null;
           }
@@ -144,7 +132,6 @@ export default function DeviceDisplay({ onAppTypeChange }: DeviceDisplayProps) {
               dragMomentum={false}
               onDragEnd={(event, info: PanInfo) => {
                 if (info.offset.x < -100) {
-                  // Swiped left
                   controls
                     .start({
                       x: -window.innerWidth,
@@ -156,7 +143,6 @@ export default function DeviceDisplay({ onAppTypeChange }: DeviceDisplayProps) {
                       controls.set({ x: 0, rotate: 0 });
                     });
                 } else if (info.offset.x > 100) {
-                  // Swiped right
                   controls
                     .start({
                       x: window.innerWidth,
@@ -168,7 +154,6 @@ export default function DeviceDisplay({ onAppTypeChange }: DeviceDisplayProps) {
                       controls.set({ x: 0, rotate: 0 });
                     });
                 } else {
-                  // If swipe threshold not met, card snaps back automatically
                   controls.start({ x: 0, rotate: 0 });
                 }
               }}
@@ -185,7 +170,6 @@ export default function DeviceDisplay({ onAppTypeChange }: DeviceDisplayProps) {
                       </div>
                     </div>
                     
-                    {/* Icon Grid */}
                     <div className="grid grid-cols-2 gap-4 mb-8 w-full max-w-xs">
                       <div className="flex flex-col items-center p-3 bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm border border-gray-100">
                         <svg className="w-8 h-8 text-[#E31837] mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

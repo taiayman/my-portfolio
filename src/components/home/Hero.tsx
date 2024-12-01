@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Container from '../ui/Container'
 import Button from '../ui/Button'
 
@@ -7,13 +6,7 @@ export default function Hero() {
     <section className="pt-24 pb-16">
       <Container>
         <div className="flex flex-col items-center text-center gap-8">
-          <Image
-            src="/images/hero-bg.png"
-            alt="Hero background"
-            width={120}
-            height={120}
-            className="rounded-full"
-          />
+          <div className="h-[120px] w-[120px] rounded-full bg-gray-200" />
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold">
             Hi, I&apos;m <span className="text-blue-600">Your Name</span>
           </h1>
@@ -28,4 +21,4 @@ export default function Hero() {
       </Container>
     </section>
   )
-} 
+}

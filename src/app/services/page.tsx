@@ -85,7 +85,7 @@ export default function ServicesPage() {
           <h1 className="text-5xl font-bold mb-6 text-[#1a1a1a]">Our Services</h1>
           <p className="text-xl text-[#1a1a1a]/70 max-w-3xl mx-auto">
             We offer comprehensive software solutions tailored to your needs. From web and mobile development 
-            to cloud services and maintenance, we've got you covered.
+            to cloud services and maintenance, we&apos;ve got you covered.
           </p>
         </motion.div>
 
@@ -126,4 +126,4 @@ export default function ServicesPage() {
       </div>
     </div>
   );
-} 
+}
