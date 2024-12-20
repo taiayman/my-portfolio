@@ -1,16 +1,9 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, useAnimation, PanInfo, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
+import { motion, useAnimation, AnimatePresence } from 'framer-motion';
 import PhoneFrame from './PhoneFrame';
 import LaptopFrame from './LaptopFrame';
-import { Archivo_Black } from 'next/font/google';
-
-const archivo = Archivo_Black({
-  weight: '400',
-  subsets: ['latin'],
-});
 
 const phoneFrames = [
   { id: 1, appType: 'marketplace' as const },
@@ -44,17 +37,6 @@ export default function DeviceDisplay({ onAppTypeChange }: DeviceDisplayProps) {
   useEffect(() => {
     onAppTypeChange?.(phoneFrames[currentIndex].appType);
   }, [currentIndex, onAppTypeChange]);
-
-  const swiped = (direction: 'left' | 'right', index: number) => {
-    if (index === phoneFrames.length - 1) {
-      setTimeout(() => {
-        setCurrentIndex(0);
-        setResetCounter((prev) => prev + 1);
-      }, 250);
-    } else {
-      setCurrentIndex(index + 1);
-    }
-  };
 
   const handlePrevious = () => {
     const newIndex = currentIndex === 0 ? phoneFrames.length - 1 : currentIndex - 1;
@@ -283,7 +265,7 @@ export default function DeviceDisplay({ onAppTypeChange }: DeviceDisplayProps) {
                 {phoneFrames[currentIndex].appType === 'createapp' && (
                   <div className="h-full w-full flex flex-col items-center justify-center bg-[#fcf5eb] p-6">
                     <div className="mb-8 text-center">
-                      <h2 className={`${archivo.className} text-2xl text-gray-900 mb-3`}>CREATE YOUR APP</h2>
+                      <h2 className="text-2xl text-gray-900 mb-3">CREATE YOUR APP</h2>
                       <div className="flex items-center gap-3 justify-center">
                         <div className="w-8 h-[2px] bg-gray-900" />
                         <p className="text-gray-600 text-sm uppercase tracking-wider">Start Building</p>
