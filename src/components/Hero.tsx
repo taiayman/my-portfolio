@@ -1,14 +1,15 @@
 'use client';
 
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import * as Flags from 'country-flag-icons/react/3x2';
+import PhoneFrame from './PhoneFrame';
 import { Archivo_Black } from 'next/font/google';
 import AIChatOverlay from './AIChatOverlay';
 import PhoneCarousel from './PhoneCarousel';
 import QuestionOverlay from './QuestionOverlay';
 import '../styles/flags.css';
-import Link from 'next/link';
 
 const archivo = Archivo_Black({
   weight: '400',
@@ -32,9 +33,11 @@ export default function Hero() {
   const [showLanguages, setShowLanguages] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState<string>('');
   const [displayText, setDisplayText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [loopNum, setLoopNum] = useState(0);
   const [isQuestionOpen, setIsQuestionOpen] = useState(false);
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
-  const [currentAppType, setCurrentAppType] = useState<'marketplace' | 'vpn' | 'createapp'>('marketplace');
+  const [currentAppType, setCurrentAppType] = useState<'marketplace' | 'vpn' | 'laptop' | 'createapp'>('marketplace');
 
   const handleLanguageSelect = (language: string) => {
     setSelectedLanguage(language);
@@ -42,23 +45,39 @@ export default function Hero() {
     setIsChatOpen(true);
   };
 
+  const questions = [
+    "How much do you charge?",
+    "Combien facturez-vous?",
+    "Bch7al kankhedmo?",
+  ];
+
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     const currentPhrase = estimateTexts[currentTextIndex];
 
-    if (displayText === currentPhrase) {
-      timeout = setTimeout(() => {
-        setDisplayText('');
+    if (isDeleting) {
+      if (displayText === '') {
+        setIsDeleting(false);
         setCurrentTextIndex((prev) => (prev + 1) % estimateTexts.length);
-      }, 2000);
+      } else {
+        timeout = setTimeout(() => {
+          setDisplayText(displayText.slice(0, -1));
+        }, 50);
+      }
     } else {
-      timeout = setTimeout(() => {
-        setDisplayText(currentPhrase.slice(0, displayText.length + 1));
-      }, 100);
+      if (displayText === currentPhrase) {
+        timeout = setTimeout(() => {
+          setIsDeleting(true);
+        }, 2000);
+      } else {
+        timeout = setTimeout(() => {
+          setDisplayText(currentPhrase.slice(0, displayText.length + 1));
+        }, 100);
+      }
     }
 
     return () => clearTimeout(timeout);
-  }, [displayText, currentTextIndex]);
+  }, [displayText, isDeleting, currentTextIndex]);
 
   const openWhatsApp = () => {
     window.open('https://wa.me/212765755723', '_blank');
@@ -187,7 +206,9 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="max-w-xl mx-auto md:mx-0 md:pl-16 text-center md:text-left order-1 md:order-1 pt-6 sm:pt-8 md:pt-0"
+              className={`max-w-xl mx-auto md:mx-0 ${currentAppType !== 'laptop' ? 'md:pl-16' : ''} text-center md:text-left order-1 md:order-1 pt-6 sm:pt-8 md:pt-0 ${
+                currentAppType === 'laptop' ? 'md:col-span-1' : 'md:col-span-1'
+              }`}
             >
               <h1
                 className={`${archivo.className} text-[3.5rem] sm:text-[4rem] md:text-[8.5rem] leading-[1.1] md:leading-[0.9] font-bold text-gray-900 mb-4 md:mb-8 tracking-tight`}
@@ -236,16 +257,20 @@ export default function Hero() {
               </div>
             </motion.div>
 
-            {/* Phone Mockup */}
+            {/* Phone/Laptop Mockup */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative flex flex-col items-center order-1 md:order-2 -mx-4 md:mx-0 mt-4 md:mt-0"
+              className={`relative flex flex-col items-center order-1 md:order-2 -mx-4 md:mx-0 mt-4 md:mt-0 ${
+                currentAppType === 'laptop' ? 'md:-mr-24 lg:-mr-32' : ''
+              }`}
             >
               <div className="flex flex-col items-center">
                 {/* Phone Carousel with centered GitHub link */}
-                <div className="scale-[0.85] md:scale-100 transform-gpu relative w-[300px] h-[600px]">
+                <div className={`scale-[0.85] md:scale-100 transform-gpu relative ${
+                  currentAppType === 'laptop' ? 'w-[600px]' : 'w-[300px]'
+                } h-[600px]`}>
                   <PhoneCarousel onAppTypeChange={setCurrentAppType} />
                   
                   {/* GitHub/Play Store Link - Centered positioning with increased bottom spacing */}
@@ -336,12 +361,12 @@ export default function Hero() {
               <span className="text-xs mt-1">About</span>
             </a>
             
-            <Link
-              href="/blog/"
-              className="text-sm text-gray-600 hover:text-gray-900"
-            >
-              Read More
-            </Link>
+            <a href="/blog" className="flex flex-col items-center p-2 text-gray-600 hover:text-primary transition-colors">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H9M9 11l3 3m0 0l3-3m-3 3V8" />
+              </svg>
+              <span className="text-xs mt-1">Blog</span>
+            </a>
           </div>
         </div>
       </div>

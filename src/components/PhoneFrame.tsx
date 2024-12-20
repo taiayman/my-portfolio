@@ -3,9 +3,12 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import LaptopFrame from './LaptopFrame';
+import LaptopAppContent from './LaptopAppContent';
+import ListeningTest from './ListeningTest';
 
 interface PhoneFrameProps {
-  appType: 'vpn' | 'marketplace' | 'createapp';
+  appType: 'vpn' | 'marketplace' | 'laptop' | 'createapp';
   children?: React.ReactNode;
 }
 
@@ -167,815 +170,425 @@ export default function PhoneFrame({ appType, children }: PhoneFrameProps) {
     return sum + price * item.quantity;
   }, 0);
 
-  return (
-    <div className="relative w-[300px] h-[600px] mx-auto select-none">
-      <div className="absolute inset-0 bg-gray-900 rounded-[3rem] shadow-2xl">
-        <div className="absolute inset-[8px] bg-white rounded-[2.5rem] overflow-hidden">
-          {/* Status Bar - Different color based on app type */}
-          <div className={`absolute top-0 inset-x-0 h-7 ${appType === 'marketplace' ? 'bg-[#E31837]' : 'bg-gray-100'} z-20`}>
-            <div className={`absolute top-1.5 left-6 ${appType === 'marketplace' ? 'text-white' : 'text-black'} text-sm font-medium`}>
-              {currentTime}
-            </div>
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 h-6 w-24 bg-black rounded-b-3xl" />
-            <div className="absolute top-1.5 right-6 flex items-center space-x-1.5">
-              <div className="text-xs text-black">14%</div>
-              <svg className="w-4 h-4 text-black" viewBox="0 0 24 24">
-                <path fill="currentColor" d="M16,20H8V6H16M16.67,4H15V2H9V4H7.33A1.33,1.33 0 0,0 6,5.33V20.67C6,21.4 6.6,22 7.33,22H16.67A1.33,1.33 0 0,0 18,20.67V5.33C18,4.6 17.4,4 16.67,4Z" />
-              </svg>
-              <svg className="w-4 h-4 text-black" viewBox="0 0 24 24">
-                <path fill="currentColor" d="M12,21L15.6,16.2C14.6,15.45 13.35,15 12,15C10.65,15 9.4,15.45 8.4,16.2L12,21M12,3C7.95,3 4.21,4.34 1.2,6.6L3,9C5.5,7.12 8.62,6 12,6C15.38,6 18.5,7.12 21,9L22.8,6.6C19.79,4.34 16.05,3 12,3M12,9C9.3,9 6.81,9.89 4.8,11.4L6.6,13.8C8.1,12.67 9.97,12 12,12C14.03,12 15.9,12.67 17.4,13.8L19.2,11.4C17.19,9.89 14.7,9 12,9Z" />
-              </svg>
-            </div>
-          </div>
+  const getGitHubLink = () => {
+    switch (appType) {
+      case 'laptop':
+        return 'https://github.com/taiayman/language-test';
+      case 'marketplace':
+        return 'https://github.com/taiayman/Morjib-app';
+      case 'vpn':
+        return 'https://github.com/taiayman/vpn-app';
+      default:
+        return '#';
+    }
+  };
 
-          {/* Conditional rendering based on appType */}
-          {appType === 'createapp' ? (
-            <div className="absolute inset-0 bg-white">
-              {children}
+  const renderContent = () => {
+    if (appType === 'laptop') {
+  return (
+        <div className="relative w-full h-full">
+          {/* Desktop Frame */}
+          <div className="absolute inset-0 pointer-events-none">
+            <svg
+              viewBox="0 0 620 650"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-full h-full"
+              preserveAspectRatio="none"
+            >
+              {/* Main Frame */}
+              <path
+                d="M20 0H600C611.046 0 620 8.95431 620 20V630C620 641.046 611.046 650 600 650H20C8.95431 650 0 641.046 0 630V20C0 8.95431 8.95431 0 20 0Z"
+                fill="#1A1A1A"
+              />
+              {/* Screen */}
+              <path
+                d="M12 22C12 16.4772 16.4772 12 22 12H598C603.523 12 608 16.4772 608 22V628C608 633.523 603.523 638 598 638H22C16.4772 638 12 633.523 12 628V22Z"
+                fill="#FCFCFC"
+              />
+              {/* Bottom Stand */}
+              <path
+                d="M260 638H360C365.523 638 370 642.477 370 648V650H250V648C250 642.477 254.477 638 260 638Z"
+                fill="#1A1A1A"
+              />
+              </svg>
             </div>
-          ) : appType === 'marketplace' ? (
-            <div className="absolute inset-0 bg-[#F5E6D3]">
-              {/* Marketplace App Content */}
-              <AnimatePresence mode="wait">
-                {currentView === 'home' ? (
-                  <motion.div
-                    key="home"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="h-full"
-                  >
-                    {/* Home Screen Content */}
-                    <div className="bg-[#E31837] pt-7 pb-3 px-4">
-                      <div className="flex items-center justify-between gap-2">
-                        {/* Search Bar */}
-                        <div className="flex-1 relative">
-                          <div className="bg-white rounded-full pl-9 pr-3 py-2 w-full">
-                            <input
-                              type="text"
-                              placeholder="Search"
-                              className="w-full text-sm outline-none text-gray-600 placeholder-gray-500"
-                            />
-                          </div>
-                          <div className="absolute left-3 top-1/2 -translate-y-1/2">
-                            <svg className="w-4 h-4 text-gray-400" viewBox="0 0 24 24">
-                              <path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+
+          {/* Content */}
+          <div className="absolute inset-[12px] rounded-[10px] overflow-hidden">
+            <ListeningTest />
+          </div>
+            </div>
+      );
+    }
+
+    return (
+      <div className="relative w-full h-full">
+        {/* Phone Frame */}
+        <div className="absolute inset-0 pointer-events-none">
+          <svg
+            viewBox="0 0 320 650"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-full h-full"
+            preserveAspectRatio="none"
+          >
+            {/* Main Frame */}
+            <path
+              d="M20 0H600C611.046 0 620 8.95431 620 20V630C620 641.046 611.046 650 600 650H20C8.95431 650 0 641.046 0 630V20C0 8.95431 8.95431 0 20 0Z"
+              fill="#1A1A1A"
+            />
+            {/* Screen */}
+            <path
+              d="M12 22C12 16.4772 16.4772 12 22 12H598C603.523 12 608 16.4772 608 22V628C608 633.523 603.523 638 598 638H22C16.4772 638 12 633.523 12 628V22Z"
+              fill="#FCFCFC"
+            />
+            {/* Bottom Stand */}
+            <path
+              d="M260 638H360C365.523 638 370 642.477 370 648V650H250V648C250 642.477 254.477 638 260 638Z"
+              fill="#1A1A1A"
+            />
                             </svg>
                           </div>
+
+        {/* Content */}
+        <div className="absolute inset-[12px] rounded-[10px] overflow-hidden">
+          <ListeningTest />
                         </div>
 
-                        {/* Cart Button */}
-                        <button className="w-9 h-9 bg-white rounded-full flex items-center justify-center flex-shrink-0">
-                          <svg className="w-5 h-5 text-[#E31837]" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M17 18c-1.11 0-2 .89-2 2s.89 2 2 2 2-.89 2-2-.89-2-2-2M1 2v2h2l3.6 7.59-1.36 2.45c-.15.28-.24.61-.24.96 0 1.1.9 2 2 2h12v-2H7.42c-.13 0-.25-.11-.25-.25 0-.05.01-.09.03-.12L8.1 13h7.45c.75 0 1.41-.42 1.75-1.03l3.58-6.47c.07-.16.12-.33.12-.5 0-.55-.45-1-1-1H5.21l-.94-2M7 18c-1.11 0-2 .89-2 2s.89 2 2 2 2-.89 2-2-.89-2-2-2z" />
+        {/* GitHub Link */}
+        <div className="absolute -bottom-16 left-0 right-0 flex justify-center">
+          <a
+            href="https://github.com/taiayman/language-test"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 text-gray-900 hover:text-gray-700 transition-colors group bg-white px-6 py-3 rounded-full hover:bg-gray-50 shadow-md"
+          >
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+            <span className="text-base font-medium">See the project</span>
+            <svg className="w-5 h-5 transform transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                           </svg>
-                        </button>
+          </a>
                       </div>
                     </div>
+    );
+  }
 
-                    {/* Location Bar */}
-                    <div className="bg-[#E8D5B5] px-4 py-2.5 flex items-center space-x-2">
-                      <svg className="w-5 h-5 text-[#E31837]" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
-                      </svg>
-                      <span className="text-[#E31837] font-medium flex-1">Marrakesh</span>
-                      <svg className="w-5 h-5 text-[#E31837]" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+  return (
+    <div className="relative w-full h-full">
+      {/* Phone Frame */}
+      <div className="absolute inset-0 pointer-events-none">
+        <svg
+          viewBox="0 0 320 650"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-full h-full"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M20 0H300C311.046 0 320 8.95431 320 20V630C320 641.046 311.046 650 300 650H20C8.95431 650 0 641.046 0 630V20C0 8.95431 8.95431 0 20 0Z"
+            fill="#1A1A1A"
+          />
+          <path
+            d="M12 22C12 16.4772 16.4772 12 22 12H298C303.523 12 308 16.4772 308 22V628C308 633.523 303.523 638 298 638H22C16.4772 638 12 633.523 12 628V22Z"
+            fill="#FCFCFC"
+          />
                       </svg>
                     </div>
 
-                    {/* Categories */}
-                    <div className="relative h-[calc(100%-140px)] flex items-center justify-center -mt-6">
-                      <div className="relative w-[280px] h-[280px]">
-                        {/* Top Circle - Supermarket */}
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[135px]">
-                          <motion.button
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => setCurrentView('supermarket')}
-                            className="w-full h-[135px] bg-white rounded-full flex flex-col items-center justify-center space-y-2 shadow-sm transform-gpu relative"
-                          >
-                            <div className="text-3xl">🛒</div>
-                            <div className="text-base font-medium text-[#E31837] text-center">
-                              Supermarket
+      {/* Content */}
+      <div className="absolute inset-[12px] rounded-[10px] overflow-hidden">
+        {appType === 'marketplace' && (
+          <div className="h-full w-full bg-white">
+            {/* Status Bar */}
+            <div className="flex justify-between items-center px-4 py-2 bg-gray-50">
+              <span className="text-xs text-gray-800">{currentTime}</span>
+              <div className="flex items-center gap-1">
+                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.01 21.49L23.64 7c-.45-.34-4.93-4-11.64-4C5.28 3 .81 6.66.36 7l11.63 14.49.01.01.01-.01z"/>
+                </svg>
+                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M2 22h20V2z"/>
+                </svg>
                             </div>
-                          </motion.button>
                         </div>
 
-                        {/* Bottom Left Circle */}
-                        <div className="absolute bottom-4 left-0 w-[135px]">
-                          <motion.button
-                            whileTap={{ scale: 0.95 }}
-                            className="w-full h-[135px] bg-white rounded-full flex flex-col items-center justify-center space-y-2 shadow-sm transform-gpu"
-                          >
-                            <div className="text-3xl">🥬</div>
-                            <div className="text-base font-medium text-[#E31837] text-center">
-                              Traditional<br />Markets
+            {currentView === 'home' && (
+              <div className="p-4">
+                <div className="flex justify-between items-center mb-6">
+                  <div>
+                    <h1 className="text-2xl font-bold text-gray-900">Marketplace</h1>
+                    <p className="text-sm text-gray-600">Find your favorite chocolates</p>
                             </div>
-                          </motion.button>
-                        </div>
-
-                        {/* Bottom Right Circle */}
-                        <div className="absolute bottom-4 right-0 w-[135px]">
-                          <motion.button
-                            whileTap={{ scale: 0.95 }}
-                            className="w-full h-[135px] bg-white rounded-full flex flex-col items-center justify-center space-y-2 shadow-sm transform-gpu"
-                          >
-                            <div className="text-3xl">📦</div>
-                            <div className="text-base font-medium text-[#E31837] text-center">
-                              Services &<br />Boutique
-                            </div>
-                          </motion.button>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                ) : currentView === 'supermarket' ? (
-                  <motion.div
-                    key="supermarket"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="h-full"
+                  <button 
+                    onClick={() => setCurrentView('cart')}
+                    className="relative p-2"
                   >
-                    {/* Home Header */}
-                    <div className="bg-[#E31837] pt-7 pb-3 px-4">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <h1 className="text-2xl text-title">Home</h1>
-                          <div className="flex items-center bg-white rounded-full px-2.5 py-1">
-                            <span className="text-yellow-400 text-sm">★</span>
-                            <span className="text-sm font-semibold ml-1">10</span>
-                            <span className="text-xs text-gray-500 ml-0.5">pts</span>
-                          </div>
-                        </div>
-                        <div className="relative">
-                          <button 
-                            onClick={() => setCurrentView('cart')}
-                            className="w-9 h-9 bg-white rounded-full flex items-center justify-center"
-                          >
-                            <svg className="w-4 h-4 text-[#E31837]" viewBox="0 0 24 24">
-                              <path fill="currentColor" d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75C7.17,14.7 7.18,14.66 7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z" />
+                    <svg className="w-6 h-6 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
                             {cartItems.length > 0 && (
-                              <div className="absolute top-0 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center shadow-sm">
-                                <span className="text-[10px] font-semibold text-[#E31837]">{cartItems.length}</span>
-                              </div>
+                      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                        {cartItems.length}
+                      </span>
                             )}
                           </button>
-                        </div>
-                      </div>
                     </div>
 
-                    {/* Location Bar */}
-                    <div className="bg-[#E8D5B5] px-4 py-2.5 flex items-center">
-                      <svg className="w-5 h-5 text-[#E31837] mr-2" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
-                      </svg>
-                      <span className="text-[#E31837] text-subtitle flex-1">Casablanca</span>
-                      <svg className="w-5 h-5 text-[#E31837]" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-                      </svg>
-                    </div>
-
-                    {/* Search Bar */}
-                    <div className="px-4 py-3">
-                      <div className="bg-white rounded-full border-2 border-[#E31837] px-4 py-2.5 flex items-center">
-                        <svg className="w-5 h-5 text-gray-400" viewBox="0 0 24 24">
-                          <path fill="currentColor" d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
-                        </svg>
-                        <input
-                          type="text"
-                          placeholder="Search in Carrefour & more"
-                          className="flex-1 text-sm text-body outline-none"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Store Cards */}
-                    <div className="px-4 grid grid-cols-2 gap-4">
-                      {/* BIM Card */}
-                      <div className="bg-white rounded-lg p-4 aspect-square flex flex-col items-center justify-center gap-3">
-                        <div className="w-20 h-20 rounded-full border-2 border-[#E8D5B5] flex items-center justify-center">
-                          <div className="w-16 h-16 relative">
-                            <svg viewBox="0 0 400 400" className="w-full h-full">
-                              <circle cx="200" cy="200" r="200" fill="#E31837"/>
-                              <text 
-                                x="200" 
-                                y="230" 
-                                textAnchor="middle" 
-                                dominantBaseline="middle"
-                                fontSize="140" 
-                                fill="white" 
-                                fontFamily="Arial Black" 
-                                fontWeight="900"
-                              >BIM</text>
-                            </svg>
-                          </div>
-                        </div>
-                        <span className="text-base text-subtitle text-gray-900">BIM</span>
-                      </div>
-
-                      {/* Marjane Card */}
-                      <div className="bg-white rounded-lg p-4 aspect-square flex flex-col items-center justify-center gap-3">
-                        <div className="w-20 h-20 rounded-full border-2 border-[#E8D5B5] flex items-center justify-center">
-                          <div className="w-16 h-16 relative">
-                            <svg viewBox="0 0 400 400" className="w-full h-full">
-                              <circle cx="200" cy="200" r="200" fill="#004C97"/>
-                              <text 
-                                x="200" 
-                                y="230" 
-                                textAnchor="middle" 
-                                dominantBaseline="middle"
-                                fontSize="220" 
-                                fill="white" 
-                                fontFamily="Arial Black" 
-                                fontWeight="900"
-                              >M</text>
-                            </svg>
-                          </div>
-                        </div>
-                        <span className="text-base text-subtitle text-gray-900">Marjane</span>
-                      </div>
-                    </div>
-
-                    {/* Products Section */}
-                    <div className="mt-6 px-4">
-                      <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-xl text-title text-gray-900">Chocolats</h2>
-                        <button 
-                          onClick={() => setCurrentView('allChocolates')}
-                          className="text-[#E31837] text-button text-sm"
-                        >
-                          See all
-                        </button>
-                      </div>
-                      <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-4">
                         {allChocolates.map((chocolate) => (
-                          <motion.div
-                            key={chocolate.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            whileHover={{ y: -2 }}
-                            whileTap={{ scale: 0.98 }}
-                            transition={{ duration: 0.2 }}
-                            className="bg-white rounded-2xl p-3 relative group"
-                          >
-                            <div className="absolute top-2 right-2 z-10">
-                              <div className="bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-semibold text-[#E31837]">
-                                {chocolate.price}
-                              </div>
-                            </div>
-                            
-                            <div className="relative aspect-square mb-3 rounded-xl overflow-hidden">
-                              <motion.div
-                                whileHover={{ scale: 1.05 }}
-                                transition={{ duration: 0.2 }}
-                                className="h-full w-full"
-                              >
+                    <div key={chocolate.id} className="bg-gray-50 rounded-lg p-3">
+                      <div className="relative w-full pt-[100%] mb-3">
                                 <Image
                                   src={chocolate.image}
                                   alt={chocolate.name}
                                   fill
-                                  className="object-cover"
-                                />
-                              </motion.div>
-                            </div>
-                            <div className="space-y-1">
-                              <h3 className="text-sm font-medium text-gray-900 line-clamp-2 group-hover:text-[#E31837] transition-colors">
-                                {chocolate.name}
-                              </h3>
-                              <div className="flex items-center gap-1">
-                                <div className="flex items-center">
-                                  {[...Array(5)].map((_, i) => (
-                                    <svg
-                                      key={i}
-                                      className={`w-3 h-3 ${
-                                        i < Math.floor(chocolate.rating)
-                                          ? 'text-yellow-400'
-                                          : 'text-gray-300'
-                                      }`}
-                                      fill="currentColor"
-                                      viewBox="0 0 20 20"
-                                    >
-                                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                    </svg>
-                                  ))}
-                                </div>
-                                <span className="text-xs text-gray-500">
-                                  ({chocolate.reviews})
-                                </span>
-                              </div>
-                            </div>
-                            
-                            <motion.button
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                              onClick={() => addToCart(chocolate)}
-                              className="mt-3 w-full bg-[#E31837] text-white py-2 rounded-xl text-sm font-medium hover:bg-[#d11731] transition-colors"
-                            >
-                              Add to Cart
-                            </motion.button>
-                          </motion.div>
-                        ))}
+                          className="object-cover rounded-lg"
+                        />
                       </div>
-                    </div>
-                  </motion.div>
-                ) : currentView === 'allChocolates' ? (
-                  <motion.div
-                    key="allChocolates"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="h-full"
-                  >
-                    {/* All Chocolates Header */}
-                    <div className="bg-[#E31837] pt-7 pb-3 px-4">
-                      <div className="flex items-center">
+                      <h3 className="text-sm font-medium text-gray-900 mb-1">{chocolate.name}</h3>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-bold text-gray-900">{chocolate.price}</span>
                         <button 
-                          onClick={() => setCurrentView('supermarket')}
-                          className="w-9 h-9 bg-white rounded-full flex items-center justify-center mr-4"
+                          onClick={() => addToCart(chocolate)}
+                          className="p-1.5 bg-gray-900 text-white rounded-full hover:bg-gray-800"
                         >
-                          <svg className="w-5 h-5 text-[#E31837]" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                           </svg>
                         </button>
-                        <h1 className="text-xl text-title text-white">All Chocolates</h1>
                       </div>
                     </div>
-
-                    {/* Search Bar */}
-                    <div className="px-4 py-3">
-                      <div className="bg-white rounded-full border-2 border-[#E31837] px-4 py-2.5 flex items-center space-x-2">
-                        <svg className="w-5 h-5 text-gray-400" viewBox="0 0 24 24">
-                          <path fill="currentColor" d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
-                        </svg>
-                        <input
-                          type="text"
-                          placeholder="Search chocolates"
-                          className="flex-1 text-sm text-body outline-none"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Chocolates Grid */}
-                    <div className="flex-1 overflow-auto">
-                      <div className="grid grid-cols-2 gap-3 p-4">
-                        {allChocolates.map((chocolate) => (
-                          <motion.div
-                            key={chocolate.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            whileHover={{ y: -2 }}
-                            whileTap={{ scale: 0.98 }}
-                            transition={{ duration: 0.2 }}
-                            className="bg-white rounded-2xl p-3 relative group"
-                          >
-                            <div className="absolute top-2 right-2 z-10">
-                              <div className="bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-semibold text-[#E31837]">
-                                {chocolate.price}
-                              </div>
-                            </div>
-                            
-                            <div className="relative aspect-square mb-3 rounded-xl overflow-hidden">
-                              <motion.div
-                                whileHover={{ scale: 1.05 }}
-                                transition={{ duration: 0.2 }}
-                                className="h-full w-full"
-                              >
-                                <Image
-                                  src={chocolate.image}
-                                  alt={chocolate.name}
-                                  fill
-                                  className="object-cover"
-                                />
-                              </motion.div>
-                            </div>
-                            
-                            <div className="space-y-1">
-                              <h3 className="text-sm font-medium text-gray-900 line-clamp-2 group-hover:text-[#E31837] transition-colors">
-                                {chocolate.name}
-                              </h3>
-                              <div className="flex items-center gap-1">
-                                <div className="flex items-center">
-                                  {[...Array(5)].map((_, i) => (
-                                    <svg
-                                      key={i}
-                                      className={`w-3 h-3 ${
-                                        i < Math.floor(chocolate.rating)
-                                          ? 'text-yellow-400'
-                                          : 'text-gray-300'
-                                      }`}
-                                      fill="currentColor"
-                                      viewBox="0 0 20 20"
-                                    >
-                                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                    </svg>
-                                  ))}
-                                </div>
-                                <span className="text-xs text-gray-500">
-                                  ({chocolate.reviews})
-                                </span>
-                              </div>
-                            </div>
-                            
-                            <motion.button
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                              onClick={() => addToCart(chocolate)}
-                              className="mt-3 w-full bg-[#E31837] text-white py-2 rounded-xl text-sm font-medium hover:bg-[#d11731] transition-colors"
-                            >
-                              Add to Cart
-                            </motion.button>
-                          </motion.div>
                         ))}
                       </div>
                     </div>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="cart"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="h-full flex flex-col"
-                  >
-                    <AnimatePresence mode="wait">
-                      {checkoutState === 'cart' && (
-                        <motion.div
-                          key="cart-content"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          className="h-full flex flex-col"
-                        >
-                          {/* Cart Header */}
-                          <div className="bg-[#E31837] pt-7 pb-3 px-4">
-                            <div className="flex items-center">
+            )}
+
+            {currentView === 'cart' && (
+              <div className="h-full flex flex-col">
+                <div className="p-4">
+                  <div className="flex items-center gap-3 mb-6">
                               <button 
-                                onClick={() => setCurrentView('supermarket')}
-                                className="w-9 h-9 bg-white rounded-full flex items-center justify-center mr-4"
+                      onClick={() => setCurrentView('home')}
+                      className="p-2 hover:bg-gray-100 rounded-full"
                               >
-                                <svg className="w-5 h-5 text-[#E31837]" viewBox="0 0 24 24">
-                                  <path fill="currentColor" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                                 </svg>
                               </button>
-                              <h1 className="text-xl text-title text-white">Your Cart</h1>
-                            </div>
+                    <h2 className="text-xl font-bold">Shopping Cart</h2>
                           </div>
 
-                          {/* Cart Items */}
-                          <div className="flex-1 overflow-auto bg-[#F5F3EE]">
-                            {cartItems.length === 0 ? (
-                              <div className="flex flex-col items-center justify-center h-full text-gray-500">
-                                <svg className="w-16 h-16 mb-4" viewBox="0 0 24 24">
-                                  <path fill="currentColor" d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75C7.17,14.7 7.18,14.66 7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z" />
-                                </svg>
-                                <p className="text-lg text-subtitle">Your cart is empty</p>
-                              </div>
-                            ) : (
-                              <div className="p-4 space-y-3">
+                  <div className="flex-1 overflow-auto">
                                 {cartItems.map((item) => (
-                                  <motion.div
-                                    key={item.id}
-                                    layout
-                                    className="bg-white rounded-lg p-4 flex items-center gap-4"
-                                  >
-                                    <div className="relative w-20 h-20">
+                      <div key={item.id} className="flex items-center gap-4 mb-4">
+                        <div className="relative w-20 h-20 flex-shrink-0">
                                       <Image
                                         src={item.image}
                                         alt={item.name}
                                         fill
-                                        className="object-contain"
-                                        sizes="80px"
+                            className="object-cover rounded-lg"
                                       />
                                     </div>
                                     <div className="flex-1">
-                                      <h3 className="text-sm text-subtitle text-gray-900 mb-1">{item.name}</h3>
-                                      <p className="text-[#E31837] text-subtitle">{item.price}</p>
-                                      <div className="flex items-center gap-3 mt-2">
+                          <h3 className="text-sm font-medium mb-1">{item.name}</h3>
+                          <p className="text-sm text-gray-600">{item.price}</p>
+                        </div>
+                        <div className="flex items-center gap-2">
                                         <button
                                           onClick={() => updateQuantity(item.id, -1)}
-                                          className="w-8 h-8 rounded-full border-2 border-[#E31837] flex items-center justify-center text-[#E31837] text-button"
+                            className="p-1 bg-gray-100 rounded-full"
                                         >
-                                          -
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                            </svg>
                                         </button>
-                                        <span className="text-subtitle">{item.quantity}</span>
+                          <span className="text-sm font-medium w-6 text-center">{item.quantity}</span>
                                         <button
                                           onClick={() => updateQuantity(item.id, 1)}
-                                          className="w-8 h-8 rounded-full border-2 border-[#E31837] flex items-center justify-center text-[#E31837] text-button"
+                            className="p-1 bg-gray-100 rounded-full"
                                         >
-                                          +
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
                                         </button>
                                       </div>
                                     </div>
-                                  </motion.div>
                                 ))}
                               </div>
-                            )}
                           </div>
 
-                          {/* Cart Footer */}
-                          {cartItems.length > 0 && (
-                            <div className="bg-white p-4 shadow-top">
-                              <div className="flex items-center justify-between mb-4">
-                                <span className="text-lg text-title">Total</span>
-                                <span className="text-lg text-title">{totalAmount.toFixed(2)} MAD</span>
+                <div className="border-t border-gray-200 p-4 mt-auto">
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="text-sm text-gray-600">Total Amount</span>
+                    <span className="text-lg font-bold">{totalAmount.toFixed(2)} MAD</span>
                               </div>
                               <button 
                                 onClick={() => setCheckoutState('payment')}
-                                className="w-full bg-[#E31837] text-white py-3 rounded-lg text-button"
+                    className="w-full bg-gray-900 text-white py-3 rounded-lg font-medium"
                               >
                                 Checkout
                               </button>
                             </div>
-                          )}
-                        </motion.div>
-                      )}
-
-                      {checkoutState === 'payment' && (
-                        <motion.div
-                          key="payment"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          className="h-full flex flex-col bg-white"
-                        >
-                          <div className="flex-1 flex flex-col items-center justify-center p-8">
-                            <div className="w-12 h-12 border-4 border-t-[#4285F4] border-r-[#34A853] border-b-[#FBBC05] border-l-[#EA4335] rounded-full animate-spin mb-4" />
-                            <p className="text-lg font-medium text-gray-800 text-center">
-                              Processing your payment...
-                            </p>
                           </div>
-                        </motion.div>
-                      )}
-
-                      {checkoutState === 'success' && (
-                        <motion.div
-                          key="success"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          className="h-full flex flex-col bg-white"
-                        >
-                          <div className="flex-1 flex flex-col items-center justify-center p-8">
-                            <motion.div
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                              className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6"
-                            >
-                              <svg className="w-12 h-12 text-green-500" viewBox="0 0 24 24">
-                                <path fill="currentColor" d="M9,16.17L4.83,12l-1.42,1.41L9,19 21,7l-1.41-1.41L9,16.17z" />
-                              </svg>
-                            </motion.div>
-                            <h2 className="text-2xl font-semibold text-gray-800 mb-2 text-center">
-                              Payment Successful!
-                            </h2>
-                            <p className="text-gray-600 text-center mb-8">
-                              Your order has been confirmed
-                            </p>
-                            <button
-                              onClick={() => setCheckoutState('tracking')}
-                              className="bg-[#E31837] text-white px-8 py-3 rounded-lg text-button"
-                            >
-                              Track Your Order
-                            </button>
+            )}
                           </div>
-                        </motion.div>
-                      )}
+        )}
 
-                      {checkoutState === 'tracking' && (
-                        <motion.div
-                          key="tracking"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          className="h-full flex flex-col bg-[#F5F3EE]"
-                        >
-                          {/* Tracking Header */}
-                          <div className="bg-[#E31837] pt-7 pb-3 px-4">
-                            <div className="flex items-center">
-                              <button 
-                                onClick={() => {
-                                  setCheckoutState('cart');
-                                  setCurrentView('supermarket');
-                                  setCartItems([]);
-                                }}
-                                className="w-9 h-9 bg-white rounded-full flex items-center justify-center mr-4"
-                              >
-                                <svg className="w-5 h-5 text-[#E31837]" viewBox="0 0 24 24">
-                                  <path fill="currentColor" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+        {appType === 'vpn' && (
+          <div className="h-full w-full bg-gray-900 text-white">
+            {/* Status Bar */}
+            <div className="flex justify-between items-center px-4 py-2">
+              <span className="text-xs">{currentTime}</span>
+              <div className="flex items-center gap-1">
+                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.01 21.49L23.64 7c-.45-.34-4.93-4-11.64-4C5.28 3 .81 6.66.36 7l11.63 14.49.01.01.01-.01z"/>
                                 </svg>
-                              </button>
-                              <h1 className="text-xl text-title text-white">Order Tracking</h1>
-                            </div>
-                          </div>
-
-                          {/* Tracking Content */}
-                          <div className="flex-1 p-4">
-                            <div className="bg-white rounded-xl p-4 mb-4">
-                              <h2 className="text-lg font-semibold mb-2">Order #{orderId}</h2>
-                              <p className="text-sm text-gray-600 mb-4">Estimated delivery: 30-45 minutes</p>
-                              
-                              <div className="space-y-6">
-                                <div className="flex items-center">
-                                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                                    <svg className="w-5 h-5 text-white" viewBox="0 0 24 24">
-                                      <path fill="currentColor" d="M9,16.17L4.83,12l-1.42,1.41L9,19 21,7l-1.41-1.41L9,16.17z" />
+                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M2 22h20V2z"/>
                                     </svg>
                                   </div>
-                                  <div className="ml-4">
-                                    <p className="font-medium">Order Confirmed</p>
-                                    <p className="text-sm text-gray-500">Your order has been confirmed</p>
-                                  </div>
-                                </div>
-
-                                <div className="flex items-center">
-                                  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
-                                    <svg className="w-5 h-5 text-white" viewBox="0 0 24 24">
-                                      <path fill="currentColor" d="M9,16.17L4.83,12l-1.42,1.41L9,19 21,7l-1.41-1.41L9,16.17z" />
-                                    </svg>
-                                  </div>
-                                  <div className="ml-4">
-                                    <p className="font-medium">Preparing Order</p>
-                                    <p className="text-sm text-gray-500">Your items are being prepared</p>
-                                  </div>
-                                </div>
-
-                                <div className="flex items-center">
-                                  <div className="w-8 h-8 bg-[#E31837] rounded-full flex items-center justify-center animate-pulse">
-                                    <svg className="w-5 h-5 text-white" viewBox="0 0 24 24">
-                                      <path fill="currentColor" d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z" />
-                                    </svg>
-                                  </div>
-                                  <div className="ml-4">
-                                    <p className="font-medium">On the Way</p>
-                                    <p className="text-sm text-gray-500">Your order is on its way to you</p>
-                                  </div>
-                                </div>
-
-                                <div className="flex items-center opacity-50">
-                                  <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                                    <svg className="w-5 h-5 text-white" viewBox="0 0 24 24">
-                                      <path fill="currentColor" d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z" />
-                                    </svg>
-                                  </div>
-                                  <div className="ml-4">
-                                    <p className="font-medium">Delivered</p>
-                                    <p className="text-sm text-gray-500">Enjoy your order!</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Order Summary */}
-                            <div className="bg-white rounded-xl p-4">
-                              <h3 className="font-semibold mb-3">Order Summary</h3>
-                              <div className="space-y-2">
-                                {cartItems.map((item) => (
-                                  <div key={item.id} className="flex justify-between text-sm">
-                                    <span>{item.quantity}x {item.name}</span>
-                                    <span className="text-gray-600">{(parseFloat(item.price) * item.quantity).toFixed(2)} MAD</span>
-                                  </div>
-                                ))}
-                                <div className="border-t pt-2 mt-2">
-                                  <div className="flex justify-between font-semibold">
-                                    <span>Total</span>
-                                    <span>{totalAmount.toFixed(2)} MAD</span>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </div>
-          ) : (
-            <div className="absolute inset-0 bg-white pt-7">
-              {/* VPN App Content */}
-              <AnimatePresence mode="wait">
+
                 {vpnScreen === 'main' ? (
-                  <motion.div
-                    key="main"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="px-4"
+              <div className="p-6">
+                <div className="text-center mb-8">
+                  <h1 className="text-2xl font-bold mb-2">Tindy VPN</h1>
+                  <p className="text-gray-400">Secure & Fast VPN Service</p>
+                </div>
+
+                <div className="relative w-48 h-48 mx-auto mb-8">
+                  <button
+                    onClick={() => setIsVpnConnected(!isVpnConnected)}
+                    className={`w-full h-full rounded-full border-4 ${
+                      isVpnConnected ? 'border-green-500' : 'border-gray-700'
+                    } flex items-center justify-center transition-colors duration-300`}
                   >
-                    <div className="flex items-center justify-between mb-8">
-                      <h1 className="text-2xl font-bold text-gray-900">Tindy Vpn</h1>
-                      <button className="w-8 h-8 flex items-center justify-center text-gray-400">
-                        <svg className="w-6 h-6" viewBox="0 0 24 24">
-                          <path fill="currentColor" d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                    <div className={`w-40 h-40 rounded-full ${
+                      isVpnConnected ? 'bg-green-500' : 'bg-gray-700'
+                    } flex items-center justify-center transition-colors duration-300`}>
+                      <svg className="w-16 h-16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                         </svg>
+                    </div>
                       </button>
+                  {isVpnConnected && (
+                    <div className="absolute inset-0 animate-ping">
+                      <div className="w-full h-full rounded-full border-4 border-green-500 opacity-75"></div>
+                    </div>
+                  )}
+                </div>
+
+                <div className="text-center mb-8">
+                  <p className="text-xl font-medium mb-2">
+                    {isVpnConnected ? 'Connected' : 'Not Connected'}
+                  </p>
+                  {isVpnConnected && (
+                    <p className="text-gray-400">Session Time: {sessionTime}</p>
+                  )}
                     </div>
 
-                    {/* Country Selector */}
                     <button 
                       onClick={() => setVpnScreen('servers')}
-                      className="w-full bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-8"
+                  className="w-full bg-gray-800 p-4 rounded-lg flex items-center justify-between mb-4"
                     >
-                      <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <div className="text-3xl">{vpnCountry.flag}</div>
-                          <div>
-                            <h3 className="text-lg font-semibold text-gray-900">{vpnCountry.name}</h3>
-                            <p className="text-sm text-gray-500">{vpnCountry.ping}</p>
+                    <div className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center">
+                      🇺🇸
+                    </div>
+                    <div className="text-left">
+                      <p className="font-medium">{vpnCountry.name}</p>
+                      <p className="text-sm text-gray-400">{vpnCountry.ping}</p>
                           </div>
                         </div>
-                        <svg className="w-6 h-6 text-gray-400" viewBox="0 0 24 24">
-                          <path fill="currentColor" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
-                      </div>
                     </button>
 
-                    {/* Connection Toggle */}
-                    <div className="flex flex-col items-center mb-8">
-                      <div 
-                        className="w-20 h-20 rounded-full flex items-center justify-center mb-4 cursor-pointer"
-                        style={{
-                          background: isVpnConnected ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
-                          color: isVpnConnected ? 'rgb(34, 197, 94)' : 'rgb(239, 68, 68)'
-                        }}
-                        onClick={() => setIsVpnConnected(!isVpnConnected)}
-                      >
-                        <svg className="w-10 h-10" viewBox="0 0 24 24">
-                          <path fill="currentColor" d="M12,3A9,9 0 0,1 21,12A9,9 0 0,1 12,21A9,9 0 0,1 3,12A9,9 0 0,1 12,3M12,19A7,7 0 0,1 5,12A7,7 0 0,1 12,5A7,7 0 0,1 19,12A7,7 0 0,1 12,19M12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15Z" />
-                        </svg>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-gray-800 p-4 rounded-lg text-center">
+                    <p className="text-2xl font-bold mb-1">256</p>
+                    <p className="text-sm text-gray-400">bit encryption</p>
                       </div>
-                      <p className="text-lg font-medium text-gray-900">
-                        {isVpnConnected ? "Connected" : "Not Connected"}
-                      </p>
-                    </div>
-
-                    {/* Session Timer */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="text-gray-600">Session Time</h3>
-                        <button className="px-4 py-1 bg-[#FF6B6B] text-white text-sm font-medium rounded-full">
-                          + ADD TIME
-                        </button>
+                  <div className="bg-gray-800 p-4 rounded-lg text-center">
+                    <p className="text-2xl font-bold mb-1">45</p>
+                    <p className="text-sm text-gray-400">locations</p>
                       </div>
-                      <div className="text-center">
-                        <h2 className="text-4xl font-bold text-gray-900 mb-2">{sessionTime}</h2>
-                        <p className="text-sm text-gray-500">
-                          {isVpnConnected ? "Session in progress" : "Connect to start your session"}
-                        </p>
                       </div>
                     </div>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="servers"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="h-full"
-                  >
-                    {/* Servers Header */}
-                    <div className="px-4 mb-6">
+            ) : (
+              <div className="h-full flex flex-col">
+                <div className="p-4 border-b border-gray-800">
                       <div className="flex items-center gap-3">
                         <button 
                           onClick={() => setVpnScreen('main')}
-                          className="w-8 h-8 flex items-center justify-center text-gray-600"
+                      className="p-2 hover:bg-gray-800 rounded-full"
                         >
-                          <svg className="w-6 h-6" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                           </svg>
                         </button>
-                        <h1 className="text-xl font-bold text-gray-900">Locations</h1>
-                        <div className="ml-auto text-sm text-gray-500">(0)</div>
+                    <h2 className="text-xl font-bold">Select Location</h2>
                       </div>
                     </div>
 
-                    {/* Servers Grid */}
-                    <div className="px-4 grid grid-cols-2 gap-4">
+                <div className="flex-1 overflow-auto p-4">
                       {vpnServers.map((server) => (
                         <button
                           key={server.id}
-                          onClick={() => {
-                            setVpnScreen('main');
-                            // You can add logic here to update the selected server
-                          }}
-                          className="bg-white/60 backdrop-blur-sm rounded-xl p-4 text-left border border-gray-100"
-                        >
-                          <div className="text-2xl mb-2">{server.flag}</div>
-                          <div className="font-medium text-gray-900">{server.name}</div>
-                          <div className="text-sm text-gray-500">{server.ping}</div>
+                      className="w-full bg-gray-800 p-4 rounded-lg flex items-center justify-between mb-4"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center">
+                          🇺🇸
+                        </div>
+                        <div className="text-left">
+                          <p className="font-medium">{server.name}</p>
+                          <p className="text-sm text-gray-400">{server.ping}</p>
+                        </div>
+                      </div>
+                      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
                         </button>
                       ))}
                     </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </div>
           )}
         </div>
+        )}
+
+        {children}
+      </div>
+
+      {/* GitHub Link */}
+      <div className="absolute -bottom-16 left-0 right-0 flex justify-center">
+        <a
+          href={
+            appType === 'laptop'
+              ? 'https://github.com/taiayman/language-test'
+              : appType === 'marketplace'
+              ? 'https://github.com/taiayman/Morjib-app'
+              : appType === 'vpn'
+              ? 'https://github.com/taiayman/vpn-app'
+              : '#'
+          }
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 text-gray-900 hover:text-gray-700 transition-colors group bg-white px-6 py-3 rounded-full hover:bg-gray-50 shadow-md"
+        >
+          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+          </svg>
+          <span className="text-base font-medium">See the project</span>
+          <svg className="w-5 h-5 transform transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
       </div>
     </div>
   );
